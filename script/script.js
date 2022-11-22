@@ -15,7 +15,7 @@ for(let i = 0; i < navigationLinks.length; i++) {
         }
     });
 }
-
+//ausn
 const ausn = document.querySelector('.ausn');
 const formAusn = ausn.querySelector('.calc__form');
 const resultTaxTotal = ausn.querySelector('.result__tax_total');
@@ -34,4 +34,16 @@ formAusn.addEventListener('input', () => {
         calcLabelExpenses.style.display = 'block';
         resultTaxTotal.textContent = (formAusn.income.value - formAusn.expenses.value) * 0.2;
     }
+});
+
+//self-employed
+const selfEmployment = document.querySelector('.self-employment');
+const formSelfEmployment = selfEmployment.querySelector('.calc__form');
+const resultTaxSelfEmployment = selfEmployment.querySelector('.result__tax');
+
+formSelfEmployment.addEventListener('input', () => {
+    const resIndividual = formSelfEmployment.induvidual.value * 0.04;
+    const resEntity = formSelfEmployment.entity.value * 0.06;
+
+    resultTaxSelfEmployment.textContent = resIndividual + resEntity;
 });
