@@ -40,7 +40,7 @@ formAusn.addEventListener('input', () => {
     } 
 
     if(formAusn.type.value === 'expenses') {
-        calcLabelExpenses.style.display = 'block';
+        calcLabelExpenses.style.display = '';
         resultTaxTotal.textContent = formatCurrency((formAusn.income.value - formAusn.expenses.value) * 0.2);
     }
 });
@@ -56,7 +56,7 @@ const resultTaxRestCompensation = selfEmployment.querySelector('.result__tax_res
 const resultTaxResult = selfEmployment.querySelector('.result__tax_result');
 
 const checkCompensation = () => {
-    const setDisplay = formSelfEmployment.addCompensation.checked ? 'block' : 'none'
+    const setDisplay = formSelfEmployment.addCompensation.checked ? '' : 'none'
     calcCompensation.style.display = setDisplay;
 
     resultBlockCompensation.forEach(elem => {
@@ -85,3 +85,53 @@ formSelfEmployment.addEventListener('input', () => {
     resultTaxResult.textContent = formatCurrency(finalTax);
 });
 
+//osno
+
+const osno = document.querySelector('.osno');
+const formOsno = osno.querySelector('.calc__form');
+
+const profit = osno.querySelector('.result__block_profit');
+const ndflExpenses = osno.querySelector('.result__block_ndfl-expenses');
+const ndflIncome = osno.querySelector('.result__block_ndfl-income');
+const resultTaxNds = osno.querySelector('.result__tax_nds');
+const resultTaxProperty = osno.querySelector('.result__tax_property');
+const resultTaxNdflExpenses = osno.querySelector('.result__tax_ndfl-expenses');
+const resultTaxNdflIncome = osno.querySelector('.result__tax_ndfl-income');
+const resultTaxProfit = osno.querySelector('.result__tax_profit');
+
+const checkFormBusiness = () => {
+    if(formOsno.formBusiness.value === 'ip') {
+        profit.style.display = 'none';
+        ndflExpenses.style.display = '';
+        ndflIncome.style.display = '';
+    }
+
+    if(formOsno.formBusiness.value === 'ooo') {
+        profit.style.display = '';
+        ndflExpenses.style.display = 'none';
+        ndflIncome.style.display = 'none';
+    }
+};
+
+checkFormBusiness();
+
+formOsno.addEventListener('input', () => {
+    checkFormBusiness();
+
+    const income = formOsno.income.value;
+    const expenses = formOsno.expenses.value;
+    const property = formOsno.property.value;
+
+    const nds = income * 0.2;
+    const taxProperty = property * 0.02;
+    const profit = income - expenses;
+    const ndflExpensesTotal = profit * 0.13;
+    const ndflIncomeTotal = (income - nds) * 0.13;
+    const taxProfit = profit * 0.2
+
+    resultTaxNds.textContent = formatCurrency(nds);
+    resultTaxProperty.textContent = formatCurrency(taxProperty);
+    resultTaxNdflExpenses.textContent = formatCurrency(ndflExpensesTotal);
+    resultTaxNdflIncome.textContent = formatCurrency(ndflIncomeTotal);
+    resultTaxProfit.textContent = formatCurrency(taxProfit);
+});
