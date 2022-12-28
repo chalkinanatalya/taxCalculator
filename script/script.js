@@ -87,7 +87,7 @@ formSelfEmployment.addEventListener('input', () => {
     const tax = resIndividual + resEntity;
     formSelfEmployment.compensation.value = +formSelfEmployment.compensation.value > 10_000 ? 10_000 : formSelfEmployment.compensation.value;
 
-    const benefit = +formSelfEmployment.compensation.value;
+    const benefit = Number(formSelfEmployment.compensation.value);
     const resBenefit = individual * 0.01 + entity * 0.02;
     const finalBenefit = benefit - resBenefit > 0 ? benefit - resBenefit : 0;
     const finalTax = tax - (benefit - finalBenefit);
@@ -95,6 +95,7 @@ formSelfEmployment.addEventListener('input', () => {
     resultTaxSelfEmployment.textContent = formatCurrency(tax);
     resultTaxCompensation.textContent = formatCurrency(benefit - finalBenefit);
     resultTaxRestCompensation.textContent = formatCurrency(finalBenefit);
+    console.log(finalTax);
     resultTaxResult.textContent = formatCurrency(finalTax);
 });
 
@@ -223,4 +224,32 @@ formSelfEmployment.addEventListener('input', () => {
         resultTaxTotal.textContent = formatCurrency(tax < 0 ? 0 : tax);
         resultTaxProperty.textContent = formatCurrency(taxProperty);
     });
+}
+
+//13% tax deduction
+{
+    const taxReturn = document.querySelector('.tax-return');
+    const formTaxReturn = taxReturn.querySelector('.calc__form');
+
+    const resultTaxNdfl = taxReturn.querySelector('.result__tax_ndfl');
+    const resultTaxPossible = taxReturn.querySelector('.result__tax_possible');
+    const resultTaxDeduction = taxReturn.querySelector('.result__tax_deduction');
+
+    formTaxReturn.addEventListener('input', () => {
+        const expenses = +formTaxReturn.expenses.value;
+        const income = +formTaxReturn.income.value;
+        const sumExpenses = +formTaxReturn.sumExpenses.value;
+
+        const ndfl = income * 0.13;
+        const possibleDeduction = 
+        expenses < sumExpenses 
+        ? expenses * 0.13 
+        : sumExpenses * 0.13;
+
+        const deduction = possibleDeduction < ndfl ? possibleDeduction : ndfl;
+
+        resultTaxNdfl.textContent = formatCurrency(ndfl);
+        resultTaxPossible.textContent = formatCurrency(possibleDeduction);
+        resultTaxDeduction.textContent = formatCurrency(deduction);
+    })
 }
